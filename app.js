@@ -102,7 +102,7 @@ updatePosts().then( data => {
       function(request, response) {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2};
         try {
-          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")], "science"), "science");
+          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")], "science"));
         } catch(err) {
           response.say("Something went wrong. Try a different value.");
         }
@@ -111,7 +111,7 @@ updatePosts().then( data => {
   scienceApp.express(app, "/echo/");
   var futurologyApp = new alexa.app('futurology');
   futurologyApp.launch(function(request,response) {
-    response.say("Here is the latest post on the science subreddit. " + getPost(0, "futurology"), "futurology");
+    response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"), "futurology");
   });
   futurologyApp.dictionary = {"names":["matt","joe","bob","bill","mary","jane","dawn"]};
   futurologyApp.intent("LatestPost",
@@ -122,7 +122,7 @@ updatePosts().then( data => {
       ]
     },
     function(request,response) {
-      response.say("Here is the latest post on the science subreddit. " + getPost(0, "futurology"));
+      response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"));
     }
   );
   futurologyApp.intent("SpecificPost",
@@ -133,7 +133,7 @@ updatePosts().then( data => {
       function(request, response) {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2};
         try {
-          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")], "futurology"), "futurology");
+          response.say("Here is the " + request.slot("Index") + " post in the futurology subreddit. " + getPost(items[request.slot("Index")], "futurology"));
         } catch(err) {
           response.say("Something went wrong. Try a different value.");
         }
