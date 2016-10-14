@@ -8,6 +8,7 @@
     "alexa-app": "^2.3.4",
     "alexa-verifier": "0.0.5",
     "body-parser": "^1.13.2",
+    "ejs": "^2.5.2",
     "express": "^4.13.1",
     "fetch-reddit": "^0.1.0",
     "nforce": "^1.2.0",
