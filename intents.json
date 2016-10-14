@@ -1,0 +1,31 @@
+{
+  "intents": [
+    {
+      "intent": "GetCurrentCase",
+      "slots": []
+    },
+    {
+     "intent": "UpdateCase",
+      "slots": [{
+          "name": "update",
+          "type": "LITERAL"
+        }]
+    },{
+      "intent": "AddPost",
+      "slots": [{
+          "name": "post",
+          "type": "LITERAL"
+        }]
+    },{
+      "intent": "OpenCase",
+      "slots": [{
+          "name": "number",
+          "type": "NUMBER"
+        }]
+    },{
+      "intent": "GetLatestCases",
+      "slots": []
+    },{
+     "intent": "PleaseWait",
+      "slots": []
+    }
