@@ -45,45 +45,45 @@ app.set('view engine','ejs');
 
 
 var reddit = require('fetch-reddit');
-var latestPosts = [];
-function getPost(index) {
-  return latestPosts[index];
+var latestPosts = {"science": [], "futurology": []};
+function getPost(index, table) {
+  return latestPosts[table][index];
 }
 
 function updatePosts() {
   return new Promise(function(fulfill, reject) {
     console.log("Updating posts.");
+    // Check science subreddit
     reddit.fetchPosts('r/science').then( data => {
       posts = data.posts;
-      latestPosts = [
+      latestPosts.science = [
         posts[posts.length - 1].title,
         posts[posts.length - 2].title,
         posts[posts.length - 3].title,
         posts[posts.length - 4].title
       ]
-      fulfill(true);
+      // Check futurology subreddit
+      reddit.fetchPosts('r/futurology').then( data => {
+        posts = data.posts;
+        latestPosts.futurology = [
+          posts[posts.length - 1].title,
+          posts[posts.length - 2].title,
+          posts[posts.length - 3].title,
+          posts[posts.length - 4].title
+        ]
+        fulfill(true);
+      })
     })
     setTimeout(updatePosts, 3000)
   });
 }
 updatePosts().then( data => {
-  var alexaApp = new alexa.app('science');
-  alexaApp.pre = function() {
-    reddit.fetchPosts('r/science').then( data => {
-      posts = data.posts;
-      latestPosts = [
-        posts[posts.length - 1].title,
-        posts[posts.length - 2].title,
-        posts[posts.length - 3].title,
-        posts[posts.length - 4].title
-      ]
-    })
-  }
-  alexaApp.launch(function(request,response) {
-    response.say("Here is the latest post on the science subreddit. " + getPost(0));
+  var scienceApp = new alexa.app('science');
+  scienceApp.launch(function(request,response) {
+    response.say("Here is the latest post on the science subreddit. " + getPost(0), "science");
   });
-  alexaApp.dictionary = {"names":["matt","joe","bob","bill","mary","jane","dawn"]};
-  alexaApp.intent("LatestPost",
+  scienceApp.dictionary = {"names":["matt","joe","bob","bill","mary","jane","dawn"]};
+  scienceApp.intent("LatestPost",
     {
       "utterances": [
         "latest science post",
@@ -91,10 +91,10 @@ updatePosts().then( data => {
       ]
     },
     function(request,response) {
-      response.say("Here is the latest post on the science subreddit. " + getPost(0));
+      response.say("Here is the latest post on the science subreddit. " + getPost(0, "science"));
     }
   );
-  alexaApp.intent("SpecificPost",
+  scienceApp.intent("SpecificPost",
       {
         "slots": {"Index": "POST_LOCATION"},
         "utterances": ["{Index} post"]
@@ -102,13 +102,43 @@ updatePosts().then( data => {
       function(request, response) {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2};
         try {
-          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")]));
+          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")]), "science");
         } catch(err) {
           response.say("Something went wrong. Try a different value.");
         }
       }
   );
-  alexaApp.express(app, "/echo/");
+  var futurologyApp = new alexa.app('futurology');
+  futurologyApp.launch(function(request,response) {
+    response.say("Here is the latest post on the science subreddit. " + getPost(0), "futurology");
+  });
+  futurologyApp.dictionary = {"names":["matt","joe","bob","bill","mary","jane","dawn"]};
+  futurologyApp.intent("LatestPost",
+    {
+      "utterances": [
+        "latest science post",
+        "recent science news"
+      ]
+    },
+    function(request,response) {
+      response.say("Here is the latest post on the science subreddit. " + getPost(0, "futurology"));
+    }
+  );
+  futurologyApp.intent("SpecificPost",
+      {
+        "slots": {"Index": "POST_LOCATION"},
+        "utterances": ["{Index} post"]
+      },
+      function(request, response) {
+        var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2};
+        try {
+          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")]), "futurology");
+        } catch(err) {
+          response.say("Something went wrong. Try a different value.");
+        }
+      }
+  );
+  futurologyApp.express(app, "/echo/");
 
   // Launch /echo/test in your browser with a GET request!
 
