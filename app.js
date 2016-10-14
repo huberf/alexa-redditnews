@@ -57,7 +57,7 @@ function updatePosts() {
       posts = data.posts;
       latestPosts = [
         posts[posts.length - 1].title,
-        posts[posts.length - 2].title, 
+        posts[posts.length - 2].title,
         posts[posts.length - 3].title,
         posts[posts.length - 4].title
       ]
@@ -67,13 +67,13 @@ function updatePosts() {
   });
 }
 updatePosts().then( data => {
-  var alexaApp = new alexa.app('test');
+  var alexaApp = new alexa.app('science');
   alexaApp.pre = function() {
     reddit.fetchPosts('r/science').then( data => {
       posts = data.posts;
       latestPosts = [
         posts[posts.length - 1].title,
-        posts[posts.length - 2].title, 
+        posts[posts.length - 2].title,
         posts[posts.length - 3].title,
         posts[posts.length - 4].title
       ]
