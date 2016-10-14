@@ -80,7 +80,7 @@ function updatePosts() {
 updatePosts().then( data => {
   var scienceApp = new alexa.app('science');
   scienceApp.launch(function(request,response) {
-    response.say("Here is the latest post on the science subreddit. " + getPost(0), "science");
+    response.say("Here is the latest post on the science subreddit. " + getPost(0, "science"), "science");
   });
   scienceApp.dictionary = {"names":["matt","joe","bob","bill","mary","jane","dawn"]};
   scienceApp.intent("LatestPost",
@@ -102,7 +102,7 @@ updatePosts().then( data => {
       function(request, response) {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2};
         try {
-          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")]), "science");
+          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")], "science"), "science");
         } catch(err) {
           response.say("Something went wrong. Try a different value.");
         }
@@ -111,7 +111,7 @@ updatePosts().then( data => {
   scienceApp.express(app, "/echo/");
   var futurologyApp = new alexa.app('futurology');
   futurologyApp.launch(function(request,response) {
-    response.say("Here is the latest post on the science subreddit. " + getPost(0), "futurology");
+    response.say("Here is the latest post on the science subreddit. " + getPost(0, "futurology"), "futurology");
   });
   futurologyApp.dictionary = {"names":["matt","joe","bob","bill","mary","jane","dawn"]};
   futurologyApp.intent("LatestPost",
@@ -133,7 +133,7 @@ updatePosts().then( data => {
       function(request, response) {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2};
         try {
-          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")]), "futurology");
+          response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")], "futurology"), "futurology");
         } catch(err) {
           response.say("Something went wrong. Try a different value.");
         }
