@@ -108,6 +108,7 @@ updatePosts().then( data => {
         }
       }
   );
+  scienceApp.express(app, "/echo/");
   var futurologyApp = new alexa.app('futurology');
   futurologyApp.launch(function(request,response) {
     response.say("Here is the latest post on the science subreddit. " + getPost(0), "futurology");
