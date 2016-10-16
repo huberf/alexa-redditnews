@@ -82,7 +82,6 @@ updatePosts().then( data => {
   scienceApp.launch(function(request,response) {
     response.say("Here is the latest post on the science subreddit. " + getPost(0, "science"), "science");
   });
-  scienceApp.dictionary = {"names":["matt","joe","bob","bill","mary","jane","dawn"]};
   scienceApp.intent("LatestPost",
     {
       "utterances": [
@@ -113,7 +112,6 @@ updatePosts().then( data => {
   futurologyApp.launch(function(request,response) {
     response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"), "futurology");
   });
-  futurologyApp.dictionary = {"names":["matt","joe","bob","bill","mary","jane","dawn"]};
   futurologyApp.intent("LatestPost",
     {
       "utterances": [
@@ -142,7 +140,6 @@ updatePosts().then( data => {
   futurologyApp.express(app, "/echo/");
 
   // Launch /echo/test in your browser with a GET request!
-
   app.listen(PORT);
   console.log("Listening on port "+PORT);
 });
