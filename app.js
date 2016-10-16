@@ -83,11 +83,11 @@ function updatePosts() {
             posts[posts.length - 5].title
           ]
           latestPosts.foodLinks = [
-            posts[posts.length - 1].url,
-            posts[posts.length - 2].url,
-            posts[posts.length - 3].url,
-            posts[posts.length - 4].url,
-            posts[posts.length - 5].url
+            posts[posts.length - 1].permalink,
+            posts[posts.length - 2].permalink,
+            posts[posts.length - 3].permalink,
+            posts[posts.length - 4].permalink,
+            posts[posts.length - 5].permalink
           ]
           fulfill(true);
         })
