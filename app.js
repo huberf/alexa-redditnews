@@ -159,7 +159,7 @@ updatePosts().then( data => {
   futurologyApp.express(app, "/echo/");
   var foodApp = new alexa.app('food');
   foodApp.launch(function(request,response) {
-    response.say("Here is the latest recipe in the food subreddit. " + getPost(0, "food"), "food");
+    response.say("Here is the latest recipe in the food subreddit. " + getPost(0, "food") + ". Check your Alexa app for the post link.");
     response.card(getPost(0, "food"), getPost(0, "foodLinks"));
   });
   foodApp.intent("LatestPost",
@@ -170,7 +170,7 @@ updatePosts().then( data => {
       ]
     },
     function(request,response) {
-      response.say("Here is the latest recipe in the food subreddit. " + getPost(0, "food"));
+      response.say("Here is the latest recipe in the food subreddit. " + getPost(0, "food") + ". Check your Alexa app for the post link.");
       response.card(getPost(0, "food"), getPost(0, "foodLinks"));
     }
   );
@@ -182,7 +182,7 @@ updatePosts().then( data => {
       function(request, response) {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         try {
-          response.say("Here is the " + request.slot("Index") + " recipe in the food subreddit. " + getPost(items[request.slot("Index")], "food"));
+          response.say("Here is the " + request.slot("Index") + " recipe in the food subreddit. " + getPost(items[request.slot("Index")], "food") + ". Check your Alexa app for the post link.");
           response.card(getPost(items[request.slot("Index")], "food"), getPost(items[request.slot("Index")], "foodLinks"));
         } catch(err) {
           response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth recipe.");
