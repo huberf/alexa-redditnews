@@ -45,7 +45,7 @@ app.set('view engine','ejs');
 
 
 var reddit = require('fetch-reddit');
-var latestPosts = {"science": [], "futurology": [], "food": []};
+var latestPosts = {"science": [], "futurology": [], "food": [], "foodLinks": []};
 function getPost(index, table) {
   return latestPosts[table][index];
 }
@@ -81,6 +81,13 @@ function updatePosts() {
             posts[posts.length - 3].title,
             posts[posts.length - 4].title,
             posts[posts.length - 5].title
+          ]
+          latestPosts.foodLinks = [
+            posts[posts.length - 1].url,
+            posts[posts.length - 2].url,
+            posts[posts.length - 3].url,
+            posts[posts.length - 4].url,
+            posts[posts.length - 5].url
           ]
           fulfill(true);
         })
@@ -153,6 +160,7 @@ updatePosts().then( data => {
   var foodApp = new alexa.app('food');
   foodApp.launch(function(request,response) {
     response.say("Here is the latest recipe in the food subreddit. " + getPost(0, "food"), "food");
+    response.card(getPost(0, "food"), getPost(0, "foodLinks"));
   });
   foodApp.intent("LatestPost",
     {
@@ -163,6 +171,7 @@ updatePosts().then( data => {
     },
     function(request,response) {
       response.say("Here is the latest recipe in the food subreddit. " + getPost(0, "food"));
+      response.card(getPost(0, "food"), getPost(0, "foodLinks"));
     }
   );
   foodApp.intent("SpecificPost",
@@ -174,6 +183,7 @@ updatePosts().then( data => {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         try {
           response.say("Here is the " + request.slot("Index") + " recipe in the food subreddit. " + getPost(items[request.slot("Index")], "food"));
+          response.card(getPost(items[request.slot("Index")], "food"), getPost(items[request.slot("Index")], "foodLinks"));
         } catch(err) {
           response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth recipe.");
         }
