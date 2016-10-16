@@ -45,7 +45,7 @@ app.set('view engine','ejs');
 
 
 var reddit = require('fetch-reddit');
-var latestPosts = {"science": [], "futurology": [], "food": [], "foodLinks": []};
+var latestPosts = {"science": [], "futurology": [], "food": [], "foodLinks": [], "scienceLinks": [], "futurologyLinks": []};
 function getPost(index, table) {
   return latestPosts[table][index];
 }
@@ -63,6 +63,13 @@ function updatePosts() {
         posts[posts.length - 4].title,
         posts[posts.length - 5].title
       ]
+      latestPosts.scienceLinks = [
+        posts[posts.length - 1].permalink,
+        posts[posts.length - 2].permalink,
+        posts[posts.length - 3].permalink,
+        posts[posts.length - 4].permalink,
+        posts[posts.length - 5].permalink
+      ]
       // Check futurology subreddit
       reddit.fetchPosts('r/futurology').then( data => {
         posts = data.posts;
@@ -72,6 +79,13 @@ function updatePosts() {
           posts[posts.length - 3].title,
           posts[posts.length - 4].title,
           posts[posts.length - 5].title
+        ]
+        latestPosts.futurologyLinks = [
+          posts[posts.length - 1].permalink,
+          posts[posts.length - 2].permalink,
+          posts[posts.length - 3].permalink,
+          posts[posts.length - 4].permalink,
+          posts[posts.length - 5].permalink
         ]
         reddit.fetchPosts('r/food').then( data => {
           posts = data.posts;
@@ -100,6 +114,7 @@ updatePosts().then( data => {
   var scienceApp = new alexa.app('science');
   scienceApp.launch(function(request,response) {
     response.say("Here is the latest post on the science subreddit. " + getPost(0, "science"), "science");
+    response.card(getPost(0, "science"), getPost(0, "scienceLinks"))
   });
   scienceApp.intent("LatestPost",
     {
@@ -110,6 +125,7 @@ updatePosts().then( data => {
     },
     function(request,response) {
       response.say("Here is the latest post on the science subreddit. " + getPost(0, "science"));
+      response.card(getPost(0, "science"), getPost(0, "scienceLinks"))
     }
   );
   scienceApp.intent("SpecificPost",
@@ -121,6 +137,7 @@ updatePosts().then( data => {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         try {
           response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")], "science"));
+          response.card(getPost(items[request.slot("Index")], "science"), getPost(items[request.slot("Index")], "scienceLinks"));
         } catch(err) {
           response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth post.");
         }
@@ -130,6 +147,7 @@ updatePosts().then( data => {
   var futurologyApp = new alexa.app('futurology');
   futurologyApp.launch(function(request,response) {
     response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"), "futurology");
+    response.card(getPost(0, "futurology"), getPost(0, "futurologyLinks"))
   });
   futurologyApp.intent("LatestPost",
     {
@@ -140,6 +158,7 @@ updatePosts().then( data => {
     },
     function(request,response) {
       response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"));
+      response.card(getPost(0, "futurology"), getPost(0, "futurologyLinks"))
     }
   );
   futurologyApp.intent("SpecificPost",
@@ -151,6 +170,7 @@ updatePosts().then( data => {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         try {
           response.say("Here is the " + request.slot("Index") + " post in the futurology subreddit. " + getPost(items[request.slot("Index")], "futurology"));
+          response.card(getPost(items[request.slot("Index")], "futurology"), getPost(items[request.slot("Index")], "futurologyLinks"));
         } catch(err) {
           response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth post.");
         }
