@@ -45,7 +45,7 @@ app.set('view engine','ejs');
 
 
 var reddit = require('fetch-reddit');
-var latestPosts = {"science": [], "futurology": []};
+var latestPosts = {"science": [], "futurology": [], "food": []};
 function getPost(index, table) {
   return latestPosts[table][index];
 }
@@ -73,7 +73,17 @@ function updatePosts() {
           posts[posts.length - 4].title,
           posts[posts.length - 5].title
         ]
-        fulfill(true);
+        reddit.fetchPosts('r/food').then( data => {
+          posts = data.posts;
+          latestPosts.food = [
+            posts[posts.length - 1].title,
+            posts[posts.length - 2].title,
+            posts[posts.length - 3].title,
+            posts[posts.length - 4].title,
+            posts[posts.length - 5].title
+          ]
+          fulfill(true);
+        })
       })
     })
     setTimeout(updatePosts, 3000)
@@ -134,6 +144,36 @@ updatePosts().then( data => {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         try {
           response.say("Here is the " + request.slot("Index") + " post in the futurology subreddit. " + getPost(items[request.slot("Index")], "futurology"));
+        } catch(err) {
+          response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth post.");
+        }
+      }
+  );
+  futurologyApp.express(app, "/echo/");
+  var futurologyApp = new alexa.app('futurology');
+  futurologyApp.launch(function(request,response) {
+    response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"), "food");
+  });
+  futurologyApp.intent("LatestPost",
+    {
+      "utterances": [
+        "latest science post",
+        "recent science news"
+      ]
+    },
+    function(request,response) {
+      response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "food"));
+    }
+  );
+  futurologyApp.intent("SpecificPost",
+      {
+        "slots": {"Index": "POST_LOCATION"},
+        "utterances": ["{Index} post"]
+      },
+      function(request, response) {
+        var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
+        try {
+          response.say("Here is the " + request.slot("Index") + " post in the futurology subreddit. " + getPost(items[request.slot("Index")], "food"));
         } catch(err) {
           response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth post.");
         }
