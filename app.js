@@ -150,11 +150,11 @@ updatePosts().then( data => {
       }
   );
   futurologyApp.express(app, "/echo/");
-  var futurologyApp = new alexa.app('futurology');
-  futurologyApp.launch(function(request,response) {
+  var foodApp = new alexa.app('food');
+  foodApp.launch(function(request,response) {
     response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"), "food");
   });
-  futurologyApp.intent("LatestPost",
+  foodApp.intent("LatestPost",
     {
       "utterances": [
         "latest science post",
@@ -165,7 +165,7 @@ updatePosts().then( data => {
       response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "food"));
     }
   );
-  futurologyApp.intent("SpecificPost",
+  foodApp.intent("SpecificPost",
       {
         "slots": {"Index": "POST_LOCATION"},
         "utterances": ["{Index} post"]
@@ -179,7 +179,7 @@ updatePosts().then( data => {
         }
       }
   );
-  futurologyApp.express(app, "/echo/");
+  foodApp.express(app, "/echo/");
 
   // Launch /echo/test in your browser with a GET request!
   app.listen(PORT);
