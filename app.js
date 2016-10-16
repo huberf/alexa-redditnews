@@ -15,10 +15,10 @@ app.use(function(req, res, next) {
   // other body parser middlewares
   req._body = true;
   req.rawBody = '';
-  req.on('data', function(data) {
+  req.on('data', (data) => {
     return req.rawBody += data;
   });
-  req.on('end', function() {
+  req.on('end', () => {
     var cert_url, er, error, requestBody, signature;
     try {
       req.body = JSON.parse(req.rawBody);
@@ -60,7 +60,8 @@ function updatePosts() {
         posts[posts.length - 1].title,
         posts[posts.length - 2].title,
         posts[posts.length - 3].title,
-        posts[posts.length - 4].title
+        posts[posts.length - 4].title,
+        posts[posts.length - 5].title
       ]
       // Check futurology subreddit
       reddit.fetchPosts('r/futurology').then( data => {
@@ -69,7 +70,8 @@ function updatePosts() {
           posts[posts.length - 1].title,
           posts[posts.length - 2].title,
           posts[posts.length - 3].title,
-          posts[posts.length - 4].title
+          posts[posts.length - 4].title,
+          posts[posts.length - 5].title
         ]
         fulfill(true);
       })
@@ -99,11 +101,11 @@ updatePosts().then( data => {
         "utterances": ["{Index} post"]
       },
       function(request, response) {
-        var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2};
+        var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         try {
           response.say("Here is the " + request.slot("Index") + " post in the science subreddit. " + getPost(items[request.slot("Index")], "science"));
         } catch(err) {
-          response.say("Something went wrong. Try a different value.");
+          response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth post.");
         }
       }
   );
@@ -129,11 +131,11 @@ updatePosts().then( data => {
         "utterances": ["{Index} post"]
       },
       function(request, response) {
-        var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2};
+        var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         try {
           response.say("Here is the " + request.slot("Index") + " post in the futurology subreddit. " + getPost(items[request.slot("Index")], "futurology"));
         } catch(err) {
-          response.say("Something went wrong. Try a different value.");
+          response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth post.");
         }
       }
   );
