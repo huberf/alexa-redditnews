@@ -152,7 +152,7 @@ updatePosts().then( data => {
   futurologyApp.express(app, "/echo/");
   var foodApp = new alexa.app('food');
   foodApp.launch(function(request,response) {
-    response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"), "food");
+    response.say("Here is the latest recipe in the food subreddit. " + getPost(0, "food"), "food");
   });
   foodApp.intent("LatestPost",
     {
@@ -162,7 +162,7 @@ updatePosts().then( data => {
       ]
     },
     function(request,response) {
-      response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "food"));
+      response.say("Here is the latest recipe in the food subreddit. " + getPost(0, "food"));
     }
   );
   foodApp.intent("SpecificPost",
@@ -173,9 +173,9 @@ updatePosts().then( data => {
       function(request, response) {
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         try {
-          response.say("Here is the " + request.slot("Index") + " post in the futurology subreddit. " + getPost(items[request.slot("Index")], "food"));
+          response.say("Here is the " + request.slot("Index") + " recipe in the food subreddit. " + getPost(items[request.slot("Index")], "food"));
         } catch(err) {
-          response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth post.");
+          response.reprompt("You asked for an incorrect value. Ask again, requesting only for the first to the fifth recipe.");
         }
       }
   );
