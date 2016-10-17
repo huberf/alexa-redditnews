@@ -114,7 +114,7 @@ updatePosts().then( data => {
   var scienceApp = new alexa.app('science');
   scienceApp.launch(function(request,response) {
     response.say("Here is the latest post on the science subreddit. " + getPost(0, "science"), "science");
-    response.card(getPost(0, "science"), getPost(0, "scienceLinks"))
+    response.card("Science Post", getPost(0, "science") + ". Link: " + getPost(0, "scienceLinks"))
   });
   scienceApp.intent("LatestPost",
     {
@@ -125,7 +125,7 @@ updatePosts().then( data => {
     },
     function(request,response) {
       response.say("Here is the latest post on the science subreddit. " + getPost(0, "science"));
-      response.card(getPost(0, "science"), getPost(0, "scienceLinks"))
+      response.card("Science Post", getPost(0, "science") + ". Link: " + getPost(0, "scienceLinks"))
     }
   );
   scienceApp.intent("SpecificPost",
@@ -147,7 +147,7 @@ updatePosts().then( data => {
   var futurologyApp = new alexa.app('futurology');
   futurologyApp.launch(function(request,response) {
     response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"), "futurology");
-    response.card(getPost(0, "futurology"), getPost(0, "futurologyLinks"))
+    response.card("Futurology Post", getPost(0, "futurology") + ". Link: " + getPost(0, "futurologyLinks"))
   });
   futurologyApp.intent("LatestPost",
     {
@@ -158,7 +158,7 @@ updatePosts().then( data => {
     },
     function(request,response) {
       response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"));
-      response.card(getPost(0, "futurology"), getPost(0, "futurologyLinks"))
+      response.card("Futurology Post", getPost(0, "futurology") + ". Link: " + getPost(0, "futurologyLinks"))
     }
   );
   futurologyApp.intent("SpecificPost",
