@@ -113,7 +113,7 @@ function updatePosts() {
 updatePosts().then( data => {
   var scienceApp = new alexa.app('science');
   scienceApp.launch(function(request,response) {
-    response.say("Here is the latest post on the science subreddit. " + getPost(0, "science"), "science");
+    response.say("Here is the latest post on the science subreddit. " + getPost(0, "science") + ". To get further posts ask for the second to the fifth post.");
     response.card("Science Post", getPost(0, "science") + ". Link: " + getPost(0, "scienceLinks"))
   });
   scienceApp.intent("LatestPost",
@@ -146,7 +146,7 @@ updatePosts().then( data => {
   scienceApp.express(app, "/echo/");
   var futurologyApp = new alexa.app('futurology');
   futurologyApp.launch(function(request,response) {
-    response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology"), "futurology");
+    response.say("Here is the latest post on the futurology subreddit. " + getPost(0, "futurology") + ". To get further posts ask for the second to the fifth post.");
     response.card("Futurology Post", getPost(0, "futurology") + ". Link: " + getPost(0, "futurologyLinks"))
   });
   futurologyApp.intent("LatestPost",
