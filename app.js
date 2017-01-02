@@ -211,6 +211,28 @@ updatePosts().then( data => {
   );
   foodApp.express(app, "/echo/");
 
+
+  /**********************
+   * Reddit Client
+   *********************/
+  var redditReader = new alexa.app('reddit');
+  redditReader.launch((req, res) => {
+    res.say('I can read you the top Reddit posts for any subreddit. Try saying top science reddit posts, or latest futurology links').shouldEndSession(false).reprompt('I\'m ready for you query');
+  });
+  redditReader.intent('LatestPost',
+    {
+      "slots": {"Subreddit": "SUBREDDIT"}
+    },
+    (req, res) => {
+      reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
+        var posts = data.posts;
+        res.say(`The latest post in the {req.slot('Subreddit')} is {posts[posts.length - 1].title}`);
+        res.send();
+      });
+      return false;
+    }
+  );
+
   // Launch /echo/test in your browser with a GET request!
   app.listen(PORT);
   console.log("Listening on port "+PORT);
