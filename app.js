@@ -232,6 +232,7 @@ updatePosts().then( data => {
       return false;
     }
   );
+  redditReader.express(app, '/echo');
 
   // Launch /echo/test in your browser with a GET request!
   app.listen(PORT);
