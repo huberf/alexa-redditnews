@@ -226,7 +226,7 @@ updatePosts().then( data => {
     (req, res) => {
       reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
         var posts = data.posts;
-        res.say(`The latest post in the ${req.slot('Subreddit')} is ${posts[posts.length - 1].title}`);
+        res.say(`The latest post in the ${req.slot('Subreddit')} subreddit is, ${posts[posts.length - 1].title}`);
         res.send();
       });
       return false;
