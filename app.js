@@ -226,13 +226,13 @@ updatePosts().then( data => {
     (req, res) => {
       reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
         var posts = data.posts;
-        res.say(`The latest post in the {req.slot('Subreddit')} is {posts[posts.length - 1].title}`);
+        res.say(`The latest post in the ${req.slot('Subreddit')} is ${posts[posts.length - 1].title}`);
         res.send();
       });
       return false;
     }
   );
-  redditReader.express(app, '/echo');
+  redditReader.express(app, '/echo/');
 
   // Launch /echo/test in your browser with a GET request!
   app.listen(PORT);
