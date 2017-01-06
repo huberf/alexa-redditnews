@@ -232,6 +232,28 @@ updatePosts().then( data => {
       return false;
     }
   );
+  redditReader.intent('AMAZON.HelpIntent',
+      {},
+      (req, res) => {
+        res.say('You can use me to read the latest posts from any subreddit simply, saying something like top science reddit posts or latest life pro tips links.').shouldEndSession(false).reprompt('I\'m still listening.');
+      }
+  );
+  redditReader.intent("AMAZON.StopIntent",
+    {
+      "slots": [],
+    },
+    function(request, response) {
+      response.say("Goodbye.");
+    }
+  );
+  redditReader.intent("AMAZON.CancelIntent",
+    {
+      "slots": [],
+    },
+    function(request, response) {
+      response.say("Cancelled.");
+    }
+  );
   redditReader.express(app, '/echo/');
 
   // Launch /echo/test in your browser with a GET request!
