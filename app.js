@@ -217,7 +217,7 @@ updatePosts().then( data => {
    *********************/
   var redditReader = new alexa.app('reddit');
   redditReader.launch((req, res) => {
-    res.say('I can read you the top Reddit posts for any subreddit. Try saying top science reddit posts, or latest futurology links').shouldEndSession(false).reprompt('I\'m ready for you query');
+    res.say('I can read you the top Reddit posts for any subreddit. Try saying latest science reddit post or third futurology post').shouldEndSession(false).reprompt('I\'m ready for you query');
   });
   redditReader.intent('LatestPost',
     {
@@ -255,7 +255,7 @@ updatePosts().then( data => {
   redditReader.intent('AMAZON.HelpIntent',
       {},
       (req, res) => {
-        res.say('You can use me to read the latest posts from any subreddit simply, saying something like top science reddit posts or latest life pro tips links.').shouldEndSession(false).reprompt('I\'m still listening.');
+        res.say('You can use me to read the latest posts from any subreddit simply, saying something like the latest science reddit post or third windows phone post').shouldEndSession(false).reprompt('I\'m still listening.');
       }
   );
   redditReader.intent("AMAZON.StopIntent",
