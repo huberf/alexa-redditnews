@@ -244,7 +244,7 @@ updatePosts().then( data => {
           try {
             res.say("Here is the " + req.slot("Index") + " recipe in the " + req.slot('Subreddit') + " subreddit. " + posts[posts.length - items[req.slot("Index")]]);
           } catch(err) {
-            res.reprompt("You asked for an incorrect post number. Ask again, requesting only for the first to the fifth one.");
+            res.say("You asked for an incorrect post number. Ask again, requesting only for the first to the fifth one.").shouldEndSession(false).reprompt('I\'m still listening');
           }
         });
         return false;
