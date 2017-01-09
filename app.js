@@ -247,6 +247,7 @@ updatePosts().then( data => {
             res.reprompt("You asked for an incorrect post number. Ask again, requesting only for the first to the fifth one.");
           }
         });
+        return false;
       }
   );
   redditReader.intent('AMAZON.HelpIntent',
