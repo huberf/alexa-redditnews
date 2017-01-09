@@ -243,8 +243,10 @@ updatePosts().then( data => {
           posts = data.posts;
           try {
             res.say("Here is the " + req.slot("Index") + " recipe in the " + req.slot('Subreddit') + " subreddit. " + posts[posts.length - items[req.slot("Index")]]);
+            res.send();
           } catch(err) {
             res.say("You asked for an incorrect post number. Ask again, requesting only for the first to the fifth one.").shouldEndSession(false).reprompt('I\'m still listening');
+            res.send();
           }
         });
         return false;
