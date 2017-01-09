@@ -242,7 +242,7 @@ updatePosts().then( data => {
         reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
           posts = data.posts;
           try {
-            res.say("Here is the " + req.slot("Index") + " recipe in the " + req.slot('Subreddit') + " subreddit. " + posts[(posts.length - 1) - items[req.slot("Index")]]);
+            res.say("Here is the " + req.slot("Index") + " post in the " + req.slot('Subreddit') + " subreddit. " + posts[(posts.length - 1) - items[req.slot("Index")]].title);
             res.send();
           } catch(err) {
             res.say("You asked for an incorrect post number. Ask again, requesting only for the first to the fifth one.").shouldEndSession(false).reprompt('I\'m still listening');
