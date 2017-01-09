@@ -232,6 +232,23 @@ updatePosts().then( data => {
       return false;
     }
   );
+  redditReader.intent("SpecificPost",
+      {
+        "slots": [{"Index": "POST_LOCATION"}, {"Subreddit": "SUBREDDIT"} ],
+        "utterances": ["{Index} post"]
+      },
+      function(req, res) {
+        var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
+        reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
+          posts = data.posts;
+          try {
+            res.say("Here is the " + req.slot("Index") + " recipe in the " + req.slot('Subreddit') + " subreddit. " + posts[posts.length - items[req.slot("Index")]]);
+          } catch(err) {
+            res.reprompt("You asked for an incorrect post number. Ask again, requesting only for the first to the fifth one.");
+          }
+        });
+      }
+  );
   redditReader.intent('AMAZON.HelpIntent',
       {},
       (req, res) => {
