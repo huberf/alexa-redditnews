@@ -224,6 +224,10 @@ updatePosts().then( data => {
       "slots": {"Subreddit": "SUBREDDIT"}
     },
     (req, res) => {
+      if(!req.slot('Subreddit')) {
+        res.say(`You need to provide the name of a subreddit. Try saying ask reader for reddit for the latest science post.`);
+        res.send();
+      }
       console.log('Checking subreddit ' + req.slot('Subreddit').split(" ").join(""));
       reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
         var posts = data.posts;
@@ -239,6 +243,10 @@ updatePosts().then( data => {
         "utterances": ["{Index} post"]
       },
       function(req, res) {
+        if(!req.slot('Subreddit')) {
+          res.say(`You need to provide the name of a subreddit. Try saying ask reader for reddit for the fifth science post.`);
+          res.send();
+        }
         console.log('Checking subreddit ' + req.slot('Subreddit').split(" ").join(""));
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
