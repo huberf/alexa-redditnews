@@ -224,6 +224,7 @@ updatePosts().then( data => {
       "slots": {"Subreddit": "SUBREDDIT"}
     },
     (req, res) => {
+      console.log('Checking subreddit ' + req.slot('Subreddit').split(" ").join(""));
       reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
         var posts = data.posts;
         res.say(`The latest post in the ${req.slot('Subreddit')} subreddit is, ${posts[posts.length - 1].title}`);
@@ -238,6 +239,7 @@ updatePosts().then( data => {
         "utterances": ["{Index} post"]
       },
       function(req, res) {
+        console.log('Checking subreddit ' + req.slot('Subreddit').split(" ").join(""));
         var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
         reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
           posts = data.posts;
