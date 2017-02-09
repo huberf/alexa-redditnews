@@ -10,6 +10,9 @@ server.
 
 ### Deployment
 
+#### Lambda:
+Create a function in Lambda, and use `lambda/Archive.zip` as the source code.
+Configure the Alexa skill to interface with this Lamba function.
 #### Heroku:
 ```
 git clone https://github.com/huberf/alexa-redditnews
