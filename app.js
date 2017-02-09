@@ -273,6 +273,7 @@ updatePosts().then( data => {
       "slots": [],
     },
     function(request, response) {
+      console.log('Stopping skill');
       response.say("Goodbye.");
     }
   );
@@ -281,6 +282,7 @@ updatePosts().then( data => {
       "slots": [],
     },
     function(request, response) {
+      console.log('Cancelling skill');
       response.say("Cancelled.");
     }
   );
