@@ -11,7 +11,7 @@ redditReader.intent('LatestPost',
   },
   (req, res) => {
     if(!req.slot('Subreddit')) {
-      res.say(`You need to provide the name of a subreddit. Try saying ask reader for reddit for the latest science post.`);
+      res.say(`You need to provide the name of a subreddit. Try saying ask reddit unofficial for the latest science post.`);
       res.send();
     }
     console.log('Checking subreddit ' + req.slot('Subreddit').split(" ").join(""));
@@ -30,7 +30,7 @@ redditReader.intent("SpecificPost",
     },
     function(req, res) {
       if(!req.slot('Subreddit')) {
-        res.say(`You need to provide the name of a subreddit. Try saying ask reader for reddit for the fifth science post.`);
+        res.say(`You need to provide the name of a subreddit. Try saying ask reddit unofficial for the fifth science post.`);
         res.send();
       }
       console.log('Checking subreddit ' + req.slot('Subreddit').split(" ").join(""));
