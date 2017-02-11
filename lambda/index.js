@@ -1,5 +1,5 @@
 var alexa = require("alexa-app");
-var reddit = require('fetch-reddit');
+var reddit = require('redd');
 
 var redditReader = new alexa.app('reddit');
 redditReader.launch((req, res) => {
@@ -14,11 +14,28 @@ redditReader.intent('LatestPost',
       res.say(`You need to provide the name of a subreddit. Try saying ask reddit unofficial for the latest science post.`);
       res.send();
     }
-    console.log('Checking subreddit ' + req.slot('Subreddit').split(" ").join(""));
-    reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
-      var posts = data.posts;
-      res.say(`The latest post in the ${req.slot('Subreddit')} subreddit is, ${posts[posts.length - 1].title}`);
+    process.on('uncaughtException', function(err) {
+      res.say('Either that subreddit doesn\'t exist or I don\'t have access to it. Try asking for another subreddit.');
       res.send();
+    })
+    console.log('Checking subreddit ' + req.slot('Subreddit').split(" ").join(""));
+    var d = require('domain').create();
+    d.on('error', function() {
+      res.say('Either that subreddit doesn\'t exist or I don\'t have access to it. Try asking for another subreddit.');
+      res.send();
+    });
+    d.run(function() {
+      reddit(req.slot("Subreddit").split(" ").join(""), function(err, data) {
+        console.log('Retrieved posts');
+        console.log(data);
+        if (err) {
+          res.say('Either that subreddit doesn\'t exist or I don\'t have access to it. Try asking for another subreddit.');
+          res.send();
+        }
+        var posts = data;
+        res.say(`The latest post in the ${req.slot('Subreddit')} subreddit is, ${posts[posts.length - 1].data.title}`);
+        res.send();
+      });
     });
     return false;
   }
@@ -33,17 +50,34 @@ redditReader.intent("SpecificPost",
         res.say(`You need to provide the name of a subreddit. Try saying ask reddit unofficial for the fifth science post.`);
         res.send();
       }
+      process.on('uncaughtException', function(err) {
+        res.say('Either that subreddit doesn\'t exist or I don\'t have access to it. Try asking for another subreddit.');
+        res.send();
+      })
       console.log('Checking subreddit ' + req.slot('Subreddit').split(" ").join(""));
       var items = {"1st": 0, "2nd": 1, "3rd": 2, "first": 0, "second": 1, "third": 2, '4th': 3, 'fourth': 3, '5th': 4, 'fifth': 4};
-      reddit.fetchPosts('r/' + req.slot("Subreddit").split(" ").join("")).then( data => {
-        posts = data.posts;
-        try {
-          res.say("Here is the " + req.slot("Index") + " post in the " + req.slot('Subreddit') + " subreddit. " + posts[(posts.length - 1) - items[req.slot("Index")]].title);
-          res.send();
-        } catch(err) {
-          res.say("You asked for an incorrect post number. Ask again, requesting only for the first to the fifth one.").shouldEndSession(false).reprompt('I\'m still listening');
-          res.send();
-        }
+      var d = require('domain').create();
+      d.on('error', function() {
+        res.say('Either that subreddit doesn\'t exist or I don\'t have access to it. Try asking for another subreddit.');
+        res.send();
+      });
+      d.run(function() {
+        reddit(req.slot("Subreddit").split(" ").join(""), function(err, data) {
+          console.log('Retrieved posts');
+          console.log(data);
+          if (err) {
+            res.say('Either that subreddit doesn\'t exist or I don\'t have access to it. Try asking for another subreddit.');
+            res.send();
+          }
+          posts = data;
+          try {
+            res.say("Here is the " + req.slot("Index") + " post in the " + req.slot('Subreddit') + " subreddit. " + posts[(posts.length - 1) - items[req.slot("Index")]].data.title);
+            res.send();
+          } catch(err) {
+            res.say("You asked for an incorrect post number. Ask again, requesting only for the first to the fifth one.").shouldEndSession(false).reprompt('I\'m still listening');
+            res.send();
+          }
+        });
       });
       return false;
     }
